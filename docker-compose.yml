@@ -1,0 +1,22 @@
+# Deploy this directly on the tower with `docker compose up -d --build`
+# (tower shell, not the pico-services-controller). It needs network_mode:
+# host to reach Ollama (127.0.0.1:11434) and VoiceStudio (127.0.0.1:3900),
+# both of which are bound to loopback only -- host.docker.internal /
+# host-gateway traffic arrives from the bridge IP, not loopback, so it
+# can't reach either service. The controller's validateComposeFile()
+# explicitly rejects network_mode: host for anything registered through
+# it, so this service is intentionally run outside that path.
+services:
+  pico-voice-agent:
+    build: .
+    container_name: pico-voice-agent
+    network_mode: host
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - OLLAMA_URL=${OLLAMA_URL:-http://127.0.0.1:11434}
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-qwen3:8b}
+      - VOICESTUDIO_URL=${VOICESTUDIO_URL:-http://127.0.0.1:3900}
+      - WHISPER_MODEL=${WHISPER_MODEL:-small}
+      - WHISPER_DEVICE=${WHISPER_DEVICE:-cpu}
