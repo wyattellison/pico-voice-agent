@@ -1,0 +1,4 @@
+livekit-agents>=0.12
+livekit-plugins-silero
+faster-whisper
+httpx
