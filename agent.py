@@ -76,6 +76,8 @@ class OllamaLLMStream:
                     "messages": messages,
                     "stream": True,
                     "think": False,
+                    "keep_alive": -1,
+                    "options": {"num_ctx": 4096},
                 },
             ) as resp:
                 async for line in resp.aiter_lines():
