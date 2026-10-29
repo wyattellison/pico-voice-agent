@@ -1,4 +1,5 @@
-livekit-agents>=0.12
+livekit-agents>=1.0
 livekit-plugins-silero
 faster-whisper
 httpx
+numpy
